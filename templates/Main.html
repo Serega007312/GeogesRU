@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script src="https://api-maps.yandex.ru/v3/?apikey=8f2425e0-ae03-4912-8d3e-48c1d670759e&lang=ru_RU"></script>
-    <script>
-        ymap.ready(init);
-        function init(){
-            var myMap = new ymap.Map("map",{
-                center: [68.0, 33.06],
-                zoom: 10
-            });
-        }
-    </script>
-  </head>
+<head>
+    <meta charset="utf-8">
+    <title>Тест</title>
 
-  <body>
-    <div id="map" style="width: 600px; height: 400px"></div>
-  </body>
+    <script src="https://api-maps.yandex.ru/3.0/?apikey=a70105e3-28e1-4b1c-8832-188b64c1891c&lang=ru_RU"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=a70105e3-28e1-4b1c-8832-188b64c1891c&lang&lang=ru_RU" type="text/javascript"></script>
+    <script src="static/js/main.js"></script>
+
+</head>
+<body>
+<h1>GeogesRu</h1>
+<div id="mainText">
+    Попробуй отгадать место РОДИНЫ по панораме!
+</div>
+
+    <button id="startButton">Старт игры</button>
+    <button id="resButton">Проверить результат</button>
+
+<div id="distance">
+    Тут высветится расстояние до загаданой точки
+</div>
+
+<div id="map2" style="width: 600px; height: 400px"></div>
+<div id="panorama2" style="width: 600px; height: 400px"></div>
+</body>
 </html>
