@@ -1,28 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Тест</title>
-
+    <meta charset="UTF-8">
+    <title>Title</title>
     <script src="https://api-maps.yandex.ru/3.0/?apikey=8f2425e0-ae03-4912-8d3e-48c1d670759e&lang=ru_RU"></script>
     <script src="https://api-maps.yandex.ru/2.1/?apikey=8f2425e0-ae03-4912-8d3e-48c1d670759e&lang&lang=ru_RU" type="text/javascript"></script>
-    <script src="http://localhost:5000/static/js/game.js"></script>
-
+    <script src="static/js/game.js"></script>
 </head>
 <body>
 <h1>GeogesRu</h1>
 <div id="mainText">
     Попробуй отгадать место РОДИНЫ по панораме!
 </div>
-
-    <button id="startButton">Старт игры</button>
+    <div id="panorama2" style="width: 600px; height: 400px"></div>
+    <div id="map2" style="width: 600px; height: 400px"></div>
     <button id="resButton">Проверить результат</button>
-
-<div id="distance">
-    Тут высветится расстояние до загаданой точки
-</div>
-
-<div id="map2" style="width: 600px; height: 400px"></div>
-<div id="panorama2" style="width: 600px; height: 400px"></div>
 </body>
 </html>
