@@ -1,215 +1,192 @@
-//initMap();
-//
-//async function initMap() {
-//    await ymaps3.ready;
-//
-//    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker, YMapListener,YmapPanorama} = ymaps3;
-//
-//    const myCoordinates =  {latitude: 55.733842, longitude: 37.588144};
-//
-//    const map = new YMap(
-//        document.getElementById('map1'),
-//        {
-//            location: {
-//                // Координаты центра карты
-//                center: [37.588144, 55.733842],
-//                // Уровень масштабирования
-//                zoom: 10
-//            }
-//        }
-//    );
-//
-//    map.addChild(new YMapDefaultSchemeLayer());
-//    map.addChild(new YMapDefaultFeaturesLayer());
-//
-//
-//    const markerConteiner = document.createElement('div');
-//
-//
-//    const markerImage = document.createElement('img');
-//    markerImage.classList.add('image');
-//    markerConteiner.innerText = "ИСКОМОЕ МЕСТО";
-//
-//    markerConteiner.appendChild(markerImage);
-//
-//
-//    const marker = new YMapMarker(
-//    {
-//        coordinates: [37.588144, 55.733842],
-//    },
-//      markerConteiner
-//    );
-//
-//    map.addChild(marker);
-//
-//
-//    // -------------Реакция на клики--------------------------------------- //
-//
-//    function calculateDistance(point1, point2) {
-//                const R = 6371000; // Радиус Земли в метрах
-//                const lat1 = point1.latitude * Math.PI / 180;
-//                const lat2 = point2.latitude * Math.PI / 180;
-//                const deltaLat = (point2.latitude - point1.latitude) * Math.PI / 180;
-//                const deltaLon = (point2.longitude - point1.longitude) * Math.PI / 180;
-//
-//                const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-//                          Math.cos(lat1) * Math.cos(lat2) *
-//                          Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-//
-//                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//
-//                return R * c; // Расстояние в метрах
-//            }
-//
-//    const clickHandler = (object, event) => {
-//        const clickCoordinates = event.coordinates;
-//        const meters = calculateDistance(myCoordinates, {latitude: clickCoordinates[1], longitude: clickCoordinates[0]});
-//        alert(meters);
-//    };
-//
-//
-//    // Создание объекта-слушателя.
-//    const mapListener = new YMapListener({
-//      layer: 'any',
-//      // Добавление обработчиков на слушатель.
-//      onClick: clickHandler,
-//    });
-//
-//    // Добавление слушателя на карту.
-//    map.addChild(mapListener);
-//
-//    //-------------------------------------------------------------------------------------------//
-//
-//    //-------------------------Панорама V.3------------------------------------------------------------//
-//    // Тех поддержка пока сказала нету
-//    //              =(
-//    //---------------------------------------------------------------------------------------------//
-//
-//};
-//      html добавь <div id="map1" style="width: 600px; height: 400px"></div>
-// СТАРОЕ АПИ V.2
+window.onload = function(){
+    init();
+}
 
-
-ymaps.ready(init);
-
-var myMap;
-var myTargetPoint;
-var coordinatesCLICK;
-var myPlacemark;
+var main_url = "http://localhost:5000"
+var create_button;
+var find_room_button;
+var connect_room_button;
+var connecting_room_button;
+var score_board_button;
+var exit_menu_button;
+var result_button;
 
 
 function init(){
-     // Создание карты.
-     myMap = new ymaps.Map("map2", {
-         center: [55.733842, 37.588144],
-         zoom: 9
-     });
-
-
-     // Привязываемся к кнопкам
-     // СТАРТ
-     const buttonStart = document.getElementById('startButton');
-     // Добавляем обработчик события 'click'
-     buttonStart.addEventListener('click', startButtonEvent);
-
-
-     // Проверка результата
-     const buttonRes = document.getElementById('resButton');
-     // Добавляем обработчик события 'click'
-     buttonRes.addEventListener('click', resButtonEvent);
-}
-
-
-
-// Функция для предупреждения
-function Attention(event)
-{
-    alert("Вы открыли подсказку, за это придётся вас отстрапонить :D");
-}
-
-
-// Функция определения рандомного значения из заданного периуда
-function getRandomFloat(min, max)
-{
-    return Math.random() * (max - min) + min;
-}
-
-
-
-function startButtonEvent(event)
-{
-    // Проверяем может ли быть добавлена Панорама
-
-    if (ymaps.panorama.isSupported()) {
-        // Если можем то получаем рандомное значение
-        // широты
-        // долготы
-        var latitude = getRandomFloat(41.11, 81.51);
-        var longitude = getRandomFloat(-19.38, 169.05);
-
-
-        // Создаём панораму
-        var locateRequest = ymaps.panorama.locate([53.173713, 44.960436], {radius: 100000});
-
-        locateRequest.then(
-        function (panoramas) {
-            if (panoramas.length) {
-                // Создаём плеер для отображения Панорамы
-                var player = new ymaps.panorama.Player('panorama2', panoramas[0], {});
-
-                //player.events.add("markermouseenter", SUKA); Событие наведения на подсказку
-                player.events.add("markerexpand", Attention); // Событие при нажатие на маркер подсказки
-                player.events.add("panoramachange", Attention) // Событие при перемещении с точки стояния
-                alert(player.getPosition());
-
-            } else {
-                startButtonEvent(event);
-                console.log("Для заданной точки не найдено ни одной панорамы. Попробуй нажать на кнопку ещё раз" + latitude +" "+ longitude);
+    path = window.location.pathname;
+    if (path == "/start"){
+        create_button = document.getElementById('Create_name');
+        create_button.onclick = create_name;
+    }
+    if (path == "/menu"){
+        find_room_button = document.getElementById('Find_room');
+        connect_room_button = document.getElementById('Connect_room');
+        score_board_button = document.getElementById('Score_board');
+        find_room_button.onclick = find_room;
+        connect_room_button.onclick = connect_room;
+        score_board_button.onclick = score_board;
+        menu_who_win();
+    }
+    if (path == "/waiting_room"){
+        exit_menu_button = document.getElementById('Exit_menu');
+        exit_menu_button.onclick = function(){
+            var id_room = localStorage.getItem('id_room_main_game');
+            if (id_room != ""){
+                localStorage.setItem('id_room_main_game', "");
+                // ТУТ НУЖНО УДАЛИТЬ КОМНАТУ
             }
-        },
-        function (err) {
-            alert("При попытке получить панораму возникла ошибка." + latitude +" "+ longitude);
-        })
-
-    } else {
-        console.log("Данный браузер не поддерживается.");
+            window.location.href = '/menu';
+        }
     }
 
+    if (path == "/score_board"){
+        exit_menu_button = document.getElementById('Exit_menu');
+        exit_menu_button.onclick = function(){
+            window.location.href = '/menu';
+        }
+    }
+    if (path == "/connect_room"){
+        connecting_room_button = document.getElementById("Connecting_room");
+        connecting_room_button.onclick = connecting_room;
+    }
+    if (path == "/game"){
+        result_button = document.getElementById("resButton");
+        result_button.onclick = result;
+    }
+}
 
-    myTargetPoint = [53.173713, 44.960436];
+function create_name(){
+    var name = document.getElementById("Name_input");
+    localStorage.setItem('name', name.value);
 
-    // Добавляем на карту детект клика
-    myMap.events.add("click", function (e) {
-        coordinatesCLICK = e.get('coords');  // Получаем координаты там где кликнули
+    api_response(main_url, name.value);
+    alert("создал имя "+ name.value);
+    window.location.href = '/menu';
 
-        // Проверяем есть ли метка на карте
-        // Если есть то удаляем
-        if (myPlacemark)
-        {
-            myMap.geoObjects.remove(myPlacemark);
+}
+function find_room(){
+    name = localStorage.getItem('name');
+    alert("Поиск матча");
+    var id = waiting_room_connect(main_url, name);
+}
+function connect_room(){
+    alert("Подключение к комнате по id");
+    window.location.href = '/connect_room';
+
+}
+function score_board(){
+    alert("Таблица лидеров");
+    window.location.href = '/score_board';
+
+}
+function connecting_room(){
+    alert("Подключаюсь к комнате с заданным id");
+    window.location.href = '/';
+
+}
+function result(){
+    alert("РЕЗУЛЬТАТЫ");
+    window.location.href;
+
+}
+
+
+
+// Запросы к API
+async function api_response(url, name) {
+    try {
+        var new_url = url + "/add_user/" + name;
+        const response = await fetch(new_url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
+        const data = await response.json();
+        console.log('Полученные данные:', data);
+        return data; // Возвращаем данные
 
-        myPlacemark = new ymaps.Placemark(      // Рисуем флаг в месте щелчка
-                coordinatesCLICK,
-                {
-                    preset: "islands#redDotIcon",
-                }
-        );
+    } catch (error) {
+        console.error('Ошибка:', error);
+        throw error; // Пробрасываем ошибку дальше
+    }
+}
 
-        myMap.geoObjects.add(myPlacemark);         // Добавляем его на карту
+async function waiting_room_connect(url, name) {
+    try {
+        var new_url = url + "/find_waiting_room/" + name;
+        const response = await fetch(new_url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-    });
+        const data = await response.json();
 
+        if (data["redirect"] == "/start"){
+            window.location.href = '/start';
+            }
+        if (data["redirect"] == "/waiting_room"){
+            localStorage.setItem('id_room_main_game', data["id_room"]);
+            window.location.href = '/waiting_room';
+            }
+        if (data["redirect"] == "/game"){
+            localStorage.setItem('id_room_main_game', data["id_room"]);
+            window.location.href = '/game/'+data["id_room"];
+            }
+        return data; // Возвращаем данные
+
+    } catch (error) {
+        console.error('Ошибка:', error);
+        throw error; // Пробрасываем ошибку дальше
+    }
+}
+
+
+//
+
+function menu_who_win(){
+    var main_url = "http://localhost:5000";
+    var name = localStorage.getItem('name');
+    var id_room_last_game = localStorage.getItem("id_room_last_game");
+    const intervalId = setInterval(() => {
+        if (id_room_last_game!=""){
+            console.log('Бесконечный цикл, итерация:', Date.now());
+            id_room_last_game = localStorage.getItem("id_room_last_game");
+            game_win_or_lose(main_url, name, id_room_last_game);
+        }
+        else{
+            id_room_last_game = localStorage.getItem("id_room_last_game");
+        }
+    }, 5000);
 
 }
 
-function resButtonEvent(event)
-{
-    var distance = ymaps.coordSystem.geo.getDistance(coordinatesCLICK, myTargetPoint);
-    alert(distance);
+// ТУТ НАДО ЗАПРОСИТЬ КТО ПОБЕДИЛ
+// Если есть победитель то удалять ид из ласт гаме
+async function game_win_or_lose(url, name, id_room) {
+    try {
+        var new_url = url + "/who_win/" + name+"/"+id_room;
+        const response = await fetch(new_url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
+        const data = await response.json();
+
+        if (data["status"] == "None"){
+            localStorage.setItem("id_room_last_game", "");
+            }
+        if (data["status"] == "Ты выйграл"){
+            alert("Вы выйграли в игре: " + id_room);
+            localStorage.setItem('id_room_last_game', "");
+            }
+        if (data["status"] == "Ты проиграл"){
+            alert("К сожалению ты проиграл в игре: " + id_room);
+            localStorage.setItem('id_room_last_game', "");
+            }
+        return data; // Возвращаем данные
+
+    } catch (error) {
+        console.error('Ошибка:', error);
+        throw error; // Пробрасываем ошибку дальше
+    }
 }
-
-
-

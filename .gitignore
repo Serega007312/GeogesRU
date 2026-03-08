@@ -1,0 +1,4 @@
+/.venv
+.gitattributes
+/.idea
+/__pycache__
